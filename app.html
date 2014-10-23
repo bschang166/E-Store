@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="storeApp" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>E-Store</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script>
+      angular.module("storeApp", ["customFilters", "cart", "ngRoute"])
+        .config(function ($routeProvider) {
+
+          $routeProvider.when("/complete", {
+            templateUrl: "/views/thankYou.html"
+          })
+
+          $routeProvider.when("/placeorder", {
+            templateUrl: "/views/placeOrder.html"
+          })
+
+          $routeProvider.when("/checkout", {
+            templateUrl: "/views/checkoutSummary.html"
+          });
+
+          $routeProvider.when("/products", {
+            templateUrl: "/views/productList.html"
+          });
+
+          $routeProvider.otherwise({
+            templateUrl: "/views/productList.html"
+          });
+
+        });
+      
+    </script>
+    <script src="controllers/mainStoreCtrl.js"></script>
+    <script src="controllers/productListController.js"></script>
+　  <script src="controllers/checkoutControllers.js"></script>
+    <script src="filters/customFilters.js"></script>
+    <script src="components/cart/cart.js"></script>
+    <script src="ngmodules/angular-route.js"></script>
+</head>
+<body ng-controller="mainStoreCtrl">
+  <div class="navbar navbar-inverse">
+    <a class="navbar-brand" href="#">E-STORE</a>
+    <cart-summary />
+  </div>
+
+  <div class="alert alert-danger" ng-show="data.error">
+    Error ({{data.error.status || data.error }}).  The product data was not loaded.
+    <a href="/app.html" class="alert-link">Click here to try again.</a> 
+  </div>
+
+  <ng-view />
+</body>
+</html>

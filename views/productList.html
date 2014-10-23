@@ -1,0 +1,52 @@
+﻿<div class="panel panel-default row" ng-controller="productListCtrl"
+     ng-hide="data.error">
+  <div class="well row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+      <label class="label label-primary">Search for: </label>
+      <input type="search" class="input form-control" />
+    </div>
+    <div class="col-xs-2">
+      <label class="label label-primary ">Items per page</label>
+      <div class="btn-group btn-block">
+        <button class="btn btn-default" ng-repeat="pageCount in productListPageCount"
+                ng-click="setPageSize(pageCount)" ng-class="getPageSizeClass(pageCount)">
+          {{pageCount}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <a ng-click="selectCategory(null)"
+       class="btn btn-block btn-default btn-lg"
+       ng-class="getCategoryClass(null)">
+      Home
+    </a>
+    <a ng-repeat="item in data.products | orderBy: 'category' | unique: 'category'"
+       class="btn btn-block btn-default btn-lg" ng-click="selectCategory(item)"
+       ng-class="getCategoryClass(item)">
+      {{item}}
+    </a>
+  </div>
+  <div class="col-xs-8">
+    <div class="well" ng-repeat="item in data.products | filter: categoryFilterFn | range: selectedPage: pageSize">
+      <h3>
+        <strong>{{item.name}}</strong>
+        <span class="pull-right label label-primary">
+          {{item.price | currency}}
+        </span>
+      </h3>
+      <span class="lead">{{item.description}}</span>
+      <button class="btn btn-success pull-right" ng-click="addProductToCart(item)">
+        Add to cart
+      </button> 
+    </div>
+    <div class="pull-right btn-group">
+      <a ng-repeat="page in data.products | filter: categoryFilterFn | pageCount: pageSize"
+         class="btn btn-default"
+         ng-click="selectPage(page)" ng-class="getPageClass(page)">
+        {{page}}
+      </a>
+    </div>
+  </div>
+</div>

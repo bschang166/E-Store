@@ -1,0 +1,56 @@
+﻿<div ng-controller="ordersCtrl">
+  
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr >
+        <th ng-repeat="col in stateMap.order_main.col"
+            ng-click="setCurrentOrderFilter('order_main', col)">
+          <a class="btn btn-default btn-sm" ng-class="getActiveOrderFilterClass('order_main', col)">{{col}}</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="order in orders | 
+          orderBy: stateMap.order_main.currentOrderFilter.toLowerCase() 
+                 : stateMap.order_main.reverseOrderFilter">
+        <td>{{order.objectId}}</td>
+        <td>{{order.name}}</td>
+        <td>{{order.city}}</td>
+        <td>{{order.value | currency}}</td>
+        <td>
+          <button class="btn btn-xs btn-default" ng-click="selectOrder(order)" ng-class="getActiveOrder(order)">
+            Details
+          </button>
+          <button class="btn btn-xs btn-warning pull-right" ng-click="confirmRemoveOrder(order)">Remove Order</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div ng-show="selectedOrder">
+    <h3>Order Details</h3>
+
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th ng-repeat="col in stateMap.order_details.col"
+              ng-click="setCurrentOrderFilter('order_details', col)">
+            <a class="btn btn-default btn-xs" ng-class="getActiveOrderFilterClass('order_details', col)">
+              {{col}}
+            </a> 
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in selectedOrder.products |
+             orderBy: stateMap.order_details.currentOrderFilter.toLowerCase()
+                    : stateMap.order_details.reverseOrderFilter">
+          <td>{{item.name}}</td>
+          <td>{{item.count}}</td>
+          <td>{{item.price | currency}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
